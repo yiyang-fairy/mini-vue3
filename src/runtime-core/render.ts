@@ -20,15 +20,18 @@ function processComponent(vnode, container) {
   //挂载组件
   mountComponent(vnode, container);
 }
-function mountComponent(vnode, container) {
-  const instance = createComponentInstance(vnode);
+function mountComponent(initialVNode, container) {
+  const instance = createComponentInstance(initialVNode);
   setupComponent(instance);
-  setupRenderEffect(instance, container);
+  setupRenderEffect(instance, initialVNode, container);
 }
-function setupRenderEffect(instance, container) {
+function setupRenderEffect(instance, initialVNode, container) {
   const { proxy } = instance;
   const subTree = instance.render.call(proxy);
+
   patch(subTree, container);
+  //所有 subTree 初始化之后，将根节点的 el 赋值给组件的 el
+  initialVNode.el = subTree.el;
 }
 function processElement(vnode, container) {
   mountElement(vnode, container);
@@ -36,16 +39,20 @@ function processElement(vnode, container) {
 }
 function mountElement(vnode: any, container: any) {
   const { type, props, children } = vnode;
-  const el = document.createElement(type);
+  vnode.el = document.createElement(type);
+  const el = vnode.el;
+
   if (typeof children === "string") {
     el.textContent = children;
   } else if (Array.isArray(children)) {
     mountChildren(vnode, el);
   }
+
   for (const key in props) {
     const val = props[key];
     el.setAttribute(key, val);
   }
+
   container.append(el);
 }
 
