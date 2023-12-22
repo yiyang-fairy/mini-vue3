@@ -10,6 +10,9 @@ export const App = {
       {
         id: "root",
         class: ["red", "weight"],
+        onClick: () => {
+          console.log("hi");
+        },
       },
       "hi,  " + this.msg
       //

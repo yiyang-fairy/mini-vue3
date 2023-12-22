@@ -18,15 +18,18 @@ function patch(vnode, container) {
     processComponent(vnode, container);
   }
 }
+
 function processComponent(vnode, container) {
   //挂载组件
   mountComponent(vnode, container);
 }
+
 function mountComponent(initialVNode, container) {
   const instance = createComponentInstance(initialVNode);
   setupComponent(instance);
   setupRenderEffect(instance, initialVNode, container);
 }
+
 function setupRenderEffect(instance, initialVNode, container) {
   const { proxy } = instance;
   const subTree = instance.render.call(proxy);
@@ -35,10 +38,12 @@ function setupRenderEffect(instance, initialVNode, container) {
   //所有 subTree 初始化之后，将根节点的 el 赋值给组件的 el
   initialVNode.el = subTree.el;
 }
+
 function processElement(vnode, container) {
   mountElement(vnode, container);
   // updateElement(vnode, container);
 }
+
 function mountElement(vnode: any, container: any) {
   const { type, props, children, shapeFlag } = vnode;
   vnode.el = document.createElement(type);
@@ -52,6 +57,12 @@ function mountElement(vnode: any, container: any) {
 
   for (const key in props) {
     const val = props[key];
+    const isOn = (key) => /^on[A-Z]/.test(key);
+    if (isOn(key)) {
+      const event = key.slice(2).toLowerCase();
+      el.addEventListener(event, val);
+    }
+
     el.setAttribute(key, val);
   }
 
@@ -61,6 +72,7 @@ function mountElement(vnode: any, container: any) {
 function updateElement(vnode: any, container: any) {
   throw new Error("Function not implemented.");
 }
+
 function mountChildren(vnode, container) {
   vnode.children.forEach((v) => {
     patch(v, container);
