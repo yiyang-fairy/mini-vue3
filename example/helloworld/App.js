@@ -8,13 +8,13 @@ export const App = {
         id: "root",
         class: ["red", "weight"],
       },
-      // "hi, mimi-vue"
-      //  + this.msg
+      "hi,  " + this.msg
+      //
       // array:
-      [
-        h("p", { id: "p1", class: "green" }, "hihi"),
-        h("p", { id: "p2", class: ["blue", "bg-red"] }, "mimimimi"),
-      ]
+      // [
+      //   h("p", { id: "p1", class: "green" }, "hihi"),
+      //   h("p", { id: "p2", class: ["blue", "bg-red"] }, "mimimimi"),
+      // ]
     );
   },
   setup() {

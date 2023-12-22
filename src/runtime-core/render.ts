@@ -26,7 +26,8 @@ function mountComponent(vnode, container) {
   setupRenderEffect(instance, container);
 }
 function setupRenderEffect(instance, container) {
-  const subTree = instance.render();
+  const { proxy } = instance;
+  const subTree = instance.render.call(proxy);
   patch(subTree, container);
 }
 function processElement(vnode, container) {
@@ -35,7 +36,6 @@ function processElement(vnode, container) {
 }
 function mountElement(vnode: any, container: any) {
   const { type, props, children } = vnode;
-  console.log("11", type, props, children, container);
   const el = document.createElement(type);
   if (typeof children === "string") {
     el.textContent = children;
