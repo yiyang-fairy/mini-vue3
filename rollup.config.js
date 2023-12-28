@@ -1,4 +1,5 @@
 import typescript from "@rollup/plugin-typescript";
+import { SourceMap } from "module";
 
 export default {
   input: "./src/index.ts",
@@ -10,6 +11,7 @@ export default {
     {
       format: "es",
       file: "lib/guide-mini-vue.esm.js",
+      sourceMap: true,
     },
   ],
   plugins: [typescript()],

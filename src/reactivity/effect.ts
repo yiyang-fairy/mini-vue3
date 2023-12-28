@@ -70,7 +70,8 @@ export function trigger(target, key) {
 }
 
 export function triggerEffects(dep) {
-  for (const effect of dep) {
+  const arr = Array.from(dep) as any;
+  for (const effect of arr) {
     if (effect.scheduler) {
       effect.scheduler();
     } else {
