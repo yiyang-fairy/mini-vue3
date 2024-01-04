@@ -26,7 +26,20 @@ const renderer: any = createRenderer({
   createElement,
   patchProp,
   insert,
+  remove,
+  setElement,
 });
+
+function remove(el) {
+  const parent = el.parentNode;
+  if (parent) {
+    parent.removeChild(el);
+  }
+}
+
+function setElement(el, text) {
+  el.textContent = text;
+}
 
 export function createApp(...args) {
   return renderer.createApp(...args);
