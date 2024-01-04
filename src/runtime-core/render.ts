@@ -4,7 +4,7 @@ import { createComponentInstance, setupComponent } from "./component";
 import { createAppAPI } from "./createApp";
 import { Fragment, Text } from "./vnode";
 
-export function  (options) {
+export function createRenderer(options) {
   const { createElement, insert, remove, patchProp } = options;
 
   function render(vnode, container) {
