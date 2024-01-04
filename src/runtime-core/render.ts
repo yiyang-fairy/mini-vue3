@@ -1,4 +1,5 @@
 import { effect } from "../reactivity/effect";
+import { EMPTY_OBJ } from "../shared";
 import { ShapeFlags } from "../shared/ShapeFlags";
 import { createComponentInstance, setupComponent } from "./component";
 import { createAppAPI } from "./createApp";
@@ -69,7 +70,6 @@ export function createRenderer(options) {
         const subTree = instance.render.call(proxy);
         const precSubTree = instance.subTree;
         instance.subTree = subTree;
-        console.log({ subTree, precSubTree });
         patch(precSubTree, subTree, container, instance);
       }
     });
@@ -85,9 +85,29 @@ export function createRenderer(options) {
   }
 
   function patchElement(n1, n2, container) {
-    console.log({ n1, n2 }, "patch element");
+    const el = (n2.el = n1.el);
     // 对比 props
+    const oldProps = n1.props || EMPTY_OBJ;
+    const newProps = n2.props || EMPTY_OBJ;
+    patchProps(oldProps, newProps, el);
     // 对比 children
+  }
+
+  function patchProps(oldProps, newProps, el) {
+    for (const key in newProps) {
+      const prevPorp = oldProps[key];
+      const nextProp = newProps[key];
+      if (prevPorp !== nextProp) {
+        hostPatchProp(el, key, prevPorp, nextProp);
+      }
+    }
+    if (oldProps !== EMPTY_OBJ) {
+      for (const key in oldProps) {
+        if (!(key in newProps)) {
+          hostPatchProp(el, key, oldProps[key], null);
+        }
+      }
+    }
   }
 
   function mountElement(vnode: any, container: any, parentComponent) {
@@ -103,7 +123,7 @@ export function createRenderer(options) {
 
     for (const key in props) {
       const val = props[key];
-      hostPatchProp(el, key, val);
+      hostPatchProp(el, key, null, val);
     }
 
     hostInsert(el, container);

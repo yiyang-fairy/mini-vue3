@@ -1,5 +1,4 @@
 import typescript from "@rollup/plugin-typescript";
-import { SourceMap } from "module";
 
 export default {
   input: "./src/index.ts",

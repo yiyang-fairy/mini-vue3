@@ -22,3 +22,5 @@ export const toHandlerKey = (str) => {
 export const camelize = (str) => {
   return str.replace(/-(\w)/g, (_, c) => (c ? c.toUpperCase() : ""));
 };
+
+export const EMPTY_OBJ = {};
