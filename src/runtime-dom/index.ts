@@ -18,8 +18,8 @@ function patchProp(el, key, prevVal, nextVal) {
   }
 }
 
-function insert(child, parent, anchor) {
-  parent.insertBefore(child, anchor || null);
+function insert(child, parent, anchor = null) {
+  parent.insertBefore(child, anchor);
 }
 
 const renderer: any = createRenderer({
