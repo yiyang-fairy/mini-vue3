@@ -15,12 +15,16 @@ describe("Parse", () => {
           content: "message",
         },
       });
-      // expect(1).toBe(2);
+    });
+  });
+  describe("element", () => {
+    it("simple element div", () => {
+      const ast = baseParse("<div></div>");
 
-      // expect(text).toStrictEqual({
-      //   type: NodeTypes.TEXT,
-      //   content: "some text",
-      // });
+      expect(ast.children[0]).toStrictEqual({
+        type: NodeTypes.ELEMENT,
+        tag: "div",
+      });
     });
   });
 });
